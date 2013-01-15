@@ -1,0 +1,11 @@
+Rappel du sujet :
+L'objectif de ce projet est de prototyper un système de gestion et de surveillance (température, hygrométrie) d'une cave à vin. Les bouteilles sont équipées de tags NFC/RFID et de QRCode. 
+
+
+But1 : On suppose que les bouteilles sont toutes équipées de tags NFC. Via son portable et une appli android il serait possible de voir la quantité de bouteille et de quel type disponible dans sa cave.
+Il faut donc pouvoir programme les puces NFC ( idée : afin qu'en passant son portable prés de la bouteille, sans la toucher parce que si on la touche ca risque d'enlever la poussière, on est des informations sur la bouteille, date d'achat, maturité optimum, type de vin, année, bouffe qui va avec, prix sur le marché...)
+Pouvoir également depuis une tablette accéder à sa cave virtuelle, et modifier tout comme l'appli android sur portable, les valeurs du thermometre et hygrometre)
+
+
+But ultime : réaliser un serveur web qui via son téléphone portable et muni d'une puce RFC permettrait la gestion de sa cave à distance. Avec information de la température de la cave, de l'hygrométrie et lumière? 
+Connaissance du nombre de bouteilles dans la cave, avec quel(s) vin(s) s'accorde(nt) quel plat.
