@@ -1,32 +1,42 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-<meta name="viewport" content="width=320; user-scalable=no" />
-<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-<title>NFC Reader Demo</title>
-<link rel="stylesheet" href="css/master.css" type="text/css" media="screen" title="no title" charset="utf-8">
-<script type="text/javascript" charset="utf-8" src="js/cordova-2.3.0.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/phonegap-nfc-0.4.2-SNAPSHOT.js"></script>
-<!--<script type="text/javascript" charset="utf-8" src="js/main.js"></script>-->
-<script type="text/javascript" charset="utf-8" src="js/write.js"></script>  
-<script type="text/javascript" charset="utf-8" src="js/phonegap-toast.js"></script>   
-<script type="text/javascript" charset="utf-8" src="js/phonegap-nfc-0.2.0.js"></script>
-</head>
+<!DOCTYPE html> 
+<html> 
+    <head> 
+        <title>My Page</title> 
+        <meta name="viewport" content="width=device-width, initial-scale=1"/> 
+        <link rel="stylesheet" href="css/jquery.mobile-1.3.0.min.css" />
+        <script type="text/javascript" charset="utf-8" src="js/jquery-1.9.1.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.3.0.min.js"></script>
+    </head> 
+    <body> 
 
-<body onload="init()">
-  <!-- <h1>PhoneGap NFC Reader</h1>
- <div id="tagContents"> </div>-->
-  
-  <h1>PhoneGap NFC Writer</h1>
-  <form>
-      Mime Type:<br/>
-      <input type="text" name="mimeType" value="text/pg" size="30" /><br/>
-      Payload:<br/>      
-      <textarea name="payload" rows="10" cols="30">Hello PhoneGap</textarea>
-    </form>
-    <p>
-        Tap an NFC tag to write data.
-    </p>
-  
-</body>
+
+<!-- Home -->
+<div data-role="page" id="page1">
+    <div data-theme="" data-role="header">
+        <h3>
+            e-cave
+        </h3>
+    </div>
+    <div data-role="content">
+        <ul data-role="listview" data-divider-theme="a" data-inset="true">
+            <li data-theme="a">
+                <a href="read.html" data-transition="slide">
+                    Identification
+                </a>
+            </li>
+            <li data-theme="a">
+                <a href="write.html" data-transition="slide">
+                    Add a bottle
+                </a>
+            </li>
+            <li data-theme="a">
+                <a href="#page1" data-transition="slide">
+                    Consult the cellar
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+    </body>
 </html>
+

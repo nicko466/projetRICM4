@@ -1,5 +1,5 @@
 /*global NdefPlugin, Ndef */
-function init() {
+function write() {
     document.addEventListener('deviceready', ready, false);
 }
 var toast = cordova.require('toast');
