@@ -1,14 +1,10 @@
 /*global NdefPlugin, Ndef */
-function write() {
-    document.addEventListener('deviceready', ready, false);
-}
-var toast = cordova.require('toast');
 
 function writeTag(nfcEvent) {
   // ignore what's on the tag for now, just overwrite
     
-  var mimeType = document.forms[0].elements["mimeType"].value,
-    payload = document.forms[0].elements["payload"].value,
+  var mimeType = text/plain,//document.forms[0].elements["mimeType"].value,
+    payload = "Hey i'm mickey",//document.forms[0].elements["payload"].value,
     record = ndef.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
 
   nfc.write(
@@ -35,66 +31,8 @@ var ready = function () {
   
   nfc.addTagDiscoveredListener(writeTag, win, fail);
 
-  document.addEventListener("menubutton", showSampleData, false);
-
 };
 
-document.addEventListener('deviceready', ready, false);
-
-var data = [
-    {
-        mimeType: 'text/plain',
-        payload: 'Hello PhoneGap'
-    },
-    {
-        mimeType: 'text/pg',
-        payload: 'Hello PhoneGap'
-    },
-    {
-        mimeType: 'text/x-vCard',
-        payload: 'BEGIN:VCARD\n' +
-            'VERSION:2.1\n' +
-            'N:Coleman;Don;;;\n' +
-            'FN:Don Coleman\n' +
-            'ORG:Chariot Solutions;\n' +
-            'URL:http://chariotsolutions.com\n' +
-            'TEL;WORK:215-358-1780\n' +
-            'EMAIL;WORK:dcoleman@chariotsolutions.com\n' +
-            'END:VCARD'
-    },
-    {
-        mimeType: 'text/x-vCard',
-        payload: 'BEGIN:VCARD\n' +
-            'VERSION:2.1\n' +
-            'N:Griffin;Kevin;;;\n' +
-            'FN:Kevin Griffin\n' +
-            'ORG:Chariot Solutions;\n' +
-            'URL:http://chariotsolutions.com\n' +
-            'TEL;WORK:215-358-1780\n' +
-            'EMAIL;WORK:kgriffin@chariotsolutions.com\n' +
-            'END:VCARD'
-    },
-    {
-        mimeType: 'game/rockpaperscissors',
-        payload: 'Rock'
-    },
-    {
-        mimeType: '',
-        payload: ''
-    }
-];
-
-var index = 0;
-function showSampleData() {
-    var mimeTypeField = document.forms[0].elements["mimeType"],
-      payloadField = document.forms[0].elements["payload"],
-      record = data[index];
-    
-    index++;
-    if (index >= data.length) {
-        index = 0;
-    }
-    
-    mimeTypeField.value = record.mimeType;
-    payloadField.value = record.payload;    
+function onLoad() {
+   document.addEventListener('deviceready', ready, false);
 }

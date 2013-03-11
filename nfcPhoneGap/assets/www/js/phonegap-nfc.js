@@ -1,31 +1,18 @@
-/*global cordova, nfc */
-/*jslint sloppy: false, browser: true */
-"use strict";
+/*global PhoneGap*/
 
-function handleNfcFromIntentFilter() {
-
-    // This was historically done in cordova.addConstructor but broke with PhoneGap-2.2.0.
-    // We need to handle NFC from an Intent that launched the application, but *after*
-    // the code in the application's deviceready has run.  After upgrading to 2.2.0,
-    // addConstructor was finishing *before* deviceReady was complete and the
-    // ndef listeners had not been registered.
-    // It seems like there should be a better solution.
-    setTimeout(
-        function () {
-            cordova.exec(
-                function () {
-                    console.log("Initialized the NfcPlugin");
-                },
-                function (reason) {
-                    console.log("Failed to initialize the NfcPlugin " + reason);
-                },
-                "NfcPlugin", "init", []
-            );
-        }, 10
-    );
-}
-
-document.addEventListener('deviceready', handleNfcFromIntentFilter, false);
+PhoneGap.addConstructor(
+    function () {
+        PhoneGap.exec(
+            function () {
+                console.log("Initialized the NfcPlugin");
+            },
+            function (reason) {
+                alert("Failed to initialize the NfcPlugin " + reason);
+            },
+            "NfcPlugin", "init", []
+        )
+    }
+);
 
 var ndef = {
     // see android.nfc.NdefRecord for documentation about constants
@@ -76,7 +63,7 @@ var ndef = {
      */
     textRecord: function (text, id) {
         var languageCode = 'en', // TODO get from browser
-            payload = [];
+            payload = [];         
             
         if (!id) { id = []; }   
         
@@ -84,7 +71,7 @@ var ndef = {
         nfc.concatArray(payload, nfc.stringToBytes(languageCode));
         nfc.concatArray(payload, nfc.stringToBytes(text));
 
-        return ndef.record(ndef.TNF_WELL_KNOWN, ndef.RTD_TEXT, id, payload);
+        return NFC.record(ndef.TNF_WELL_KNOWN, ndef.RTD_TEXT, id, payload);
     },
 
     /**
@@ -108,14 +95,6 @@ var ndef = {
     mimeMediaRecord: function (mimeType, payload, id) {
         if (!id) { id = []; }   
         return ndef.record(ndef.TNF_MIME_MEDIA, nfc.stringToBytes(mimeType), id, payload);
-    },
-    
-    /**
-     * Helper that creates an empty NDEF record.
-     *
-     */
-    emptyRecord: function() {
-        return ndef.record(ndef.TNF_EMPTY, [], [], []);        
     }
 };
 
@@ -123,53 +102,38 @@ var nfc = {
 
     addTagDiscoveredListener: function (callback, win, fail) {
         document.addEventListener("tag", callback, false);
-        cordova.exec(win, fail, "NfcPlugin", "registerTag", []);
+        PhoneGap.exec(win, fail, "NfcPlugin", "registerTag", []);
     },
 
     addMimeTypeListener: function (mimeType, callback, win, fail) {
         document.addEventListener("ndef-mime", callback, false);    
-        cordova.exec(win, fail, "NfcPlugin", "registerMimeType", [mimeType]);
+        PhoneGap.exec(win, fail, "NfcPlugin", "registerMimeType", [mimeType]);
     },
     
     addNdefListener: function (callback, win, fail) {
         document.addEventListener("ndef", callback, false);                
-        cordova.exec(win, fail, "NfcPlugin", "registerNdef", []);
+        PhoneGap.exec(win, fail, "NfcPlugin", "registerNdef", []);
     },
-
+    
     addNdefFormatableListener: function (callback, win, fail) {
         document.addEventListener("ndef-formatable", callback, false);
-        cordova.exec(win, fail, "NfcPlugin", "registerNdefFormatable", []);
+        PhoneGap.exec(win, fail, "NfcPlugin", "registerNdefFormatable", []);
     },
     
     write: function (ndefMessage, win, fail) {
-        cordova.exec(win, fail, "NfcPlugin", "writeTag", [ndefMessage]);
+      PhoneGap.exec(win, fail, "NfcPlugin", "writeTag", [ndefMessage]);
     },
 
     share: function (ndefMessage, win, fail) {
-        cordova.exec(win, fail, "NfcPlugin", "shareTag", [ndefMessage]);
+      PhoneGap.exec(win, fail, "NfcPlugin", "shareTag", [ndefMessage]);
     },
 
     unshare: function (win, fail) {
-        cordova.exec(win, fail, "NfcPlugin", "unshareTag", []);
+      PhoneGap.exec(win, fail, "NfcPlugin", "unshareTag", []);
     },
 
     erase: function (win, fail) {
-        cordova.exec(win, fail, "NfcPlugin", "eraseTag", [[]]);
-    },
-
-    removeTagDiscoveredListener: function (callback, win, fail) {
-        document.removeEventListener("tag", callback, false);
-        cordova.exec(win, fail, "NfcPlugin", "removeTag", []);
-    },
-
-    removeMimeTypeListener: function(mimeType, callback, win, fail) {
-        document.removeEventListener("ndef-mime", callback, false);
-        cordova.exec(win, fail, "NfcPlugin", "removeMimeType", [mimeType]);
-    },
-
-    removeNdefListener: function (callback, win, fail) {
-        document.removeEventListener("ndef", callback, false);
-        cordova.exec(win, fail, "NfcPlugin", "removeNdef", []);
+      PhoneGap.exec(win, fail, "NfcPlugin", "writeTag", [[]]);
     },
 
     concatArray: function (a1, a2) { // this isn't built in?
@@ -180,46 +144,47 @@ var nfc = {
     },
 
     bytesToString: function (bytes) {
-        var bytesAsString = "";
-        for (var i = 0; i < bytes.length; i++) {
-            bytesAsString += String.fromCharCode(bytes[i]);
-        }
-        return bytesAsString;
+      var bytesAsString = "";
+      for (var i = 0; i < bytes.length; i++) {
+        bytesAsString += String.fromCharCode(bytes[i]);
+      }
+      return bytesAsString;
     },
 
     // http://stackoverflow.com/questions/1240408/reading-bytes-from-a-javascript-string#1242596
-    stringToBytes: function (str) {
+    stringToBytes: function ( str ) {
         var ch, st, re = [];
         for (var i = 0; i < str.length; i++ ) {
-            ch = str.charCodeAt(i);  // get char
-            st = [];                 // set up "stack"
-            do {
-                st.push( ch & 0xFF );  // push byte to stack
-                ch = ch >> 8;          // shift value down by 1 byte
-            } while ( ch );
-            // add stack contents to result
-            // done because chars have "wrong" endianness
-            re = re.concat( st.reverse() );
+          ch = str.charCodeAt(i);  // get char
+          st = [];                 // set up "stack"
+          do {
+            st.push( ch & 0xFF );  // push byte to stack
+            ch = ch >> 8;          // shift value down by 1 byte
+          }
+          while ( ch );
+          // add stack contents to result
+          // done because chars have "wrong" endianness
+          re = re.concat( st.reverse() );
         }
         // return an array of bytes
         return re;
     },
 
     bytesToHexString: function (bytes) {
-        var dec, hexstring, bytesAsHexString = "";
-        for (var i = 0; i < bytes.length; i++) {
-            if (bytes[i] >= 0) {
-                dec = bytes[i];
-            } else {
-                dec = 256 + bytes[i];
-            }
-            hexstring = dec.toString(16);
-            // zero padding
-            if (hexstring.length == 1) {
-                hexstring = "0" + hexstring;
-            }
-            bytesAsHexString += hexstring;
+      var bytesAsHexString = "";
+      for (var i = 0; i < bytes.length; i++) {
+        if(bytes[i] >= 0) {
+          dec = bytes[i];
+        } else {
+          dec = 256 + bytes[i];
         }
-        return bytesAsHexString;
+        hexstring = dec.toString(16);
+        // zero padding
+        if(hexstring.length == 1) {
+          hexstring = "0" + hexstring;
+        }
+        bytesAsHexString += hexstring;
+      }
+      return bytesAsHexString;
     }
 };
