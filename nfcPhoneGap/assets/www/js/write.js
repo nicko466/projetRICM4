@@ -2,15 +2,13 @@
 
 function writeTag(nfcEvent) {
   // ignore what's on the tag for now, just overwrite
-    
-  var mimeType = text/plain,//document.forms[0].elements["mimeType"].value,
-    payload = "Hey i'm mickey",//document.forms[0].elements["payload"].value,
-    record = ndef.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
-
+  //var mimeType = "text/pg",//document.forms[0].elements["mimeType"].value,
+ //   payload = "Hey i'm mickey",//document.forms[0].elements["payload"].value,
+//    record = ndef.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
+var ndefMessage = ndef.textRecord("This is a cow","fr");	
   nfc.write(
-        [record], 
+        [ndefMessage], 
         function () {
-            toast.showShort("Wrote data to tag.");
             navigator.notification.vibrate(100);
         }, 
         function (reason) {
@@ -22,14 +20,13 @@ function writeTag(nfcEvent) {
 var ready = function () {
   
   function win() {
-    console.log("Listening for NDEF tags");
+    alert("Listening for NDEF tags");
   }
   
   function fail() {
     alert('Failed to register NFC Listener');
   }
-  
-  nfc.addTagDiscoveredListener(writeTag, win, fail);
+  nfc.addTagDiscoveredListener(writeTag,win,fail);
 
 };
 
