@@ -45,9 +45,9 @@ var ready = function() {
 
 
 	nfc.addNdefListener(parseTag, function() {
-		alert("Success.");
+		console.log("Success.");
 	}, function() {
-		alert("Fail.");
+		console.log("Fail.");
 	});
 
 	showInstructions();
