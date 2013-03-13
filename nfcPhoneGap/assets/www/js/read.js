@@ -1,21 +1,21 @@
 function read() {
-	document.addEventListener('deviceready', readyRead, false);
-}
+	document.addEventListener("deviceready", readyRead, false);
+};
 
 function clearScreen() {
 	document.getElementById("tagContents").innerHTML = "";
-}
+};
 
 function showInstructions(p) {
 	document.getElementById("tagContents").innerHTML = " scan a tag";
-}
+};
 
 function template(record) {
 	var recordType = nfc.bytesToString(record.type), payload;
 	// attempt display as a string
 	payload = nfc.bytesToString(record.payload);
 	return payload;
-}
+};
 
 function parseTag(nfcEvent) {
 	clearScreen();
@@ -31,7 +31,7 @@ function parseTag(nfcEvent) {
 		display.appendChild(p);
 	}
 	navigator.notification.vibrate(100);
-}
+};
 
 var readyRead = function() {
 	function failure(reason) {
@@ -44,5 +44,4 @@ var readyRead = function() {
 		console.log("Fail.");
 	});
 	showInstructions();
-
 };

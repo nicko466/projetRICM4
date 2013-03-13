@@ -1,7 +1,12 @@
 function write() {
-	document.addEventListener('deviceready', readyWrite, false);
-}
+	document.addEventListener("deviceready", readyWrite, false);
+	document.addEventListener("backbutton", yourCallbackFunction, false);
+};
 
+function yourCallbackFunction(){
+	nfc.removeNdefListener(writeTag,console.log("back"),false);
+	$.mobile.changePage("index.html");
+}
 
 function writeTag(nfcEvent) {
 	var typeDeVin = $("#typeDeVin").val(), annee= $("#annee").val(), domaine = $("#domaine").val();
@@ -18,7 +23,7 @@ function writeTag(nfcEvent) {
 
 }
 
-var readyWrite = function() {
+function readyWrite() {
 
 	function win() {
 		console.log("Listening for NDEF tags");
@@ -26,9 +31,7 @@ var readyWrite = function() {
 
 	function fail() {
 		conole.log('Failed to register NFC Listener');
-	}
-
+	}	
 	nfc.addNdefListener(writeTag, win, fail);
 
 };
-
