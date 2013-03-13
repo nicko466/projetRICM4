@@ -4,24 +4,59 @@
 <meta name="viewport" content="width=320; user-scalable=no" />
 <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 <title>NFC Reader Demo</title>
-<script type="text/javascript" charset="utf-8" src="js/cordova-2.3.0.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/phonegap-nfc.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/write.js"></script>
 </head>
 
-<body onload="onLoad()">
-  <h1>PhoneGap NFC Writer</h1>
-  <form>
-      Type de vin : <br/>
-      <input type="text" name="typeDeVin" id="typeDeVin" size="30" /><br/>
-      Année : <br/>
-      <input type="text" name="annee" id="annee" size="30" /><br/>
-      Domaine :<br/>
-      <input type="text" name="domaine" id="domaine" size="30" /><br/>     
-    </form>
-    <p>
-        Tap an NFC tag to write data.
-    </p>
-  
+<body>
+<!-- Home -->
+<div data-role="page" id="page1">
+    <div data-theme="a" data-role="header">
+        <h3>
+            Add a bottle
+        </h3>
+        <div data-role="fieldcontain">
+            <fieldset data-role="controlgroup">
+                Fill the gap in order to write on your nfc tag. When you end, please tap the nfc tag.
+            </fieldset>
+        </div>
+        <div data-role="fieldcontain" >
+            <label for="selectmenu1"  >
+                Type of Wine
+            </label>
+            <select name="" id ="typeDeVin">
+                <option value="red">
+                    Red
+                </option>
+                <option value="rosy">
+                    Rosy
+                </option>
+                <option value="white">
+                    White
+                </option>
+            </select>
+        </div>
+        <div data-role="fieldcontain">
+            <fieldset data-role="controlgroup">
+                <label for="annee">
+                    Year
+                </label>
+                <input name="annee" id="annee" placeholder="" value="1990" type="text">
+            </fieldset>
+        </div>
+        <div data-role="fieldcontain">
+            <fieldset data-role="controlgroup">
+                <label for="domaine">
+                    Domain
+                </label>
+                <input name="domaine" id="domaine" placeholder="" value="Bordeaux" type="text">
+            </fieldset>
+        </div>
+    </div>
+                      <script type="text/javascript" charset="utf-8">
+  $(document).ready(function() {
+      write();
+});
+  </script>
+</div>
+
 </body>
 </html>

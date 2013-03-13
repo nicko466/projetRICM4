@@ -1,13 +1,13 @@
-function onLoad() {
-	document.addEventListener('deviceready', ready, false);
+function read() {
+	document.addEventListener('deviceready', readyRead, false);
 }
 
 function clearScreen() {
 	document.getElementById("tagContents").innerHTML = "";
 }
 
-function showInstructions() {
-	document.getElementById("tagContents").innerHTML = "<div id='instructions'>" + " <p>Scan a tag to begin.<\/p>" + " <p><\/p>" + "<\/div>";
+function showInstructions(p) {
+	document.getElementById("tagContents").innerHTML = " scan a tag";
 }
 
 function template(record) {
@@ -33,23 +33,16 @@ function parseTag(nfcEvent) {
 	navigator.notification.vibrate(100);
 }
 
-function treatment(chaine) {
-
-}
-
-var ready = function() {
+var readyRead = function() {
 	function failure(reason) {
 		navigator.notification.alert(reason, function() {
 		}, "There was a problem");
 	}
-
-
 	nfc.addNdefListener(parseTag, function() {
 		console.log("Success.");
 	}, function() {
 		console.log("Fail.");
 	});
-
 	showInstructions();
 
 };

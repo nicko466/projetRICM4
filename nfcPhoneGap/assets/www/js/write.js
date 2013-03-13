@@ -1,10 +1,10 @@
-function onLoad() {
-	document.addEventListener('deviceready', ready, false);
+function write() {
+	document.addEventListener('deviceready', readyWrite, false);
 }
 
 
 function writeTag(nfcEvent) {
-	var typeDeVin = document.getElementById("typeDeVin").value, annee = document.getElementById("annee").value, domaine = document.getElementById("domaine").value;
+	var typeDeVin = $("#typeDeVin").val(), annee= $("#annee").val(), domaine = $("#domaine").val();
 	var text = "<typeDeVin>" + typeDeVin + "</typeDeVin><annee>" + annee + "</annee><domaine>" + domaine + "</domaine>";
 	var ndefRecord = ndef.textRecord(text);
 	var ndefMessage = ndef.encodeMessage([ndefRecord]);
@@ -18,7 +18,7 @@ function writeTag(nfcEvent) {
 
 }
 
-var ready = function() {
+var readyWrite = function() {
 
 	function win() {
 		console.log("Listening for NDEF tags");
